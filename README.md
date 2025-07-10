@@ -13,5 +13,13 @@ The correct values are the ones you can find in each service repo (product, orde
 docker-compose up --build
 
 
+# RabbitMQ login
+
+Got to the designated port in docker desktop container or directly in the browser
+
+Enter user and password 
+
+And voilà !
+
 
 
