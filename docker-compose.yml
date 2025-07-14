@@ -82,7 +82,7 @@ services:
       context: ../PayeTonKawaMSPR4-API-Client
     ports:
       - "${CLIENT_PORT}:3000"
-    command: npm run start
+    command: ["/wait-for-it.sh", "service-bdd-client-mysql:3306", "--", "npm", "run", "start"]
     depends_on:
       service-bdd-client-mysql:
         condition: service_healthy
