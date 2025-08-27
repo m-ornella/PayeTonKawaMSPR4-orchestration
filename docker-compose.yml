@@ -9,6 +9,12 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   produit-service:
     container_name: service-produit
@@ -19,6 +25,8 @@ services:
     command: npm run start
     depends_on:
       service-bdd-produit-mysql:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     env_file:
       - ../PayeTonKawaMSPR4-API-produits/.env
@@ -53,6 +61,8 @@ services:
     depends_on:
       service-bdd-commandes-mysql:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../PayeTonKawaMSPR4-API-commands/.env
 
@@ -85,6 +95,8 @@ services:
     command: npm run start
     depends_on:
       service-bdd-client-mysql:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     env_file:
       - ../PayeTonKawaMSPR4-API-Client/.env
